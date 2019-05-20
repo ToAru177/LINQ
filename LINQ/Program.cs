@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace LINQ
 {
+    class Item
+    {
+        public int Id { get; set; }
+        public int Score { get; set; }
+    }
     public class Student
     {
         public string First { get; set; }
@@ -18,6 +23,12 @@ namespace LINQ
     {
         static void Main(string[] args)
         {
+            Item i1 = new Item();
+            i1.Id = 1;
+            i1.Score = 2;
+
+            // object initialization expression
+            Item i2 = new Item { Id = 1, Score = 2 };
             #region student
             List<Student> students = new List<Student>
             {
@@ -36,19 +47,27 @@ namespace LINQ
             };
             #endregion
 
-            // 자료형이 IEnumerable<IGrouping<char, Student>>으로 너무 길어 var 사용
+            /*
             var query = from x in students
                         let totalScore = x.Scores[0] + x.Scores[1] + x.Scores[2] + x.Scores[3]
                         where totalScore > 300
-                        orderby totalScore
-                        select totalScore;
+                        orderby totalScore descending
+                        // 익명 자료형이 아닌 경우
+                        select new Item { Id = x.ID, Score = totalScore };  // projection
+            */
 
+            var query = from x in students
+                        let totalScore = x.Scores[0] + x.Scores[1] + x.Scores[2] + x.Scores[3]
+                        where totalScore > 300
+                        orderby totalScore descending
+                        // 익명 자료형이 아닌 경우
+                        select new { ID2 = x.ID, Score2 = totalScore };  // projection
 
 
             //foreach(IGrouping<char, Student> g in query)
-            foreach (int s in query)
+            foreach (var s in query)
             {
-                Console.WriteLine($"\t{s.ToString()}");
+                Console.WriteLine($"\t{s.ID2} {s.Score2}");
             }
         }
     }
