@@ -38,17 +38,17 @@ namespace LINQ
 
             // 자료형이 IEnumerable<IGrouping<char, Student>>으로 너무 길어 var 사용
             var query = from x in students
-                        where x.Scores[0] > 90
-                        group x by x.Last[0] into g // orderby에서 그룹을 사용하기 위해 into를 사용
-                        orderby g.Key
-                        select g;
+                        let totalScore = x.Scores[0] + x.Scores[1] + x.Scores[2] + x.Scores[3]
+                        where totalScore > 300
+                        orderby totalScore
+                        select totalScore;
+
+
 
             //foreach(IGrouping<char, Student> g in query)
-            foreach(var x in query)
+            foreach (int s in query)
             {
-                Console.WriteLine(x.Key);
-                foreach (Student s in x)
-                    Console.WriteLine($"\t{s.First} {s.Last} {s.Scores[3]}");
+                Console.WriteLine($"\t{s.ToString()}");
             }
         }
     }
