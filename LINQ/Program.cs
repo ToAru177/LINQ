@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace LINQ
 {
-    class Item
-    {
-        public int Id { get; set; }
-        public int Score { get; set; }
-    }
+   
     public class Student
     {
         public string First { get; set; }
@@ -23,12 +19,7 @@ namespace LINQ
     {
         static void Main(string[] args)
         {
-            Item i1 = new Item();
-            i1.Id = 1;
-            i1.Score = 2;
-
-            // object initialization expression
-            Item i2 = new Item { Id = 1, Score = 2 };
+           
             #region student
             List<Student> students = new List<Student>
             {
@@ -47,27 +38,23 @@ namespace LINQ
             };
             #endregion
 
-            /*
+            // 쿼리식 : 간결
             var query = from x in students
-                        let totalScore = x.Scores[0] + x.Scores[1] + x.Scores[2] + x.Scores[3]
-                        where totalScore > 300
-                        orderby totalScore descending
-                        // 익명 자료형이 아닌 경우
-                        select new Item { Id = x.ID, Score = totalScore };  // projection
-            */
+                        where x.Scores[0] > 90
+                        orderby x.Last descending
+                        select new { x.ID, Score = x.Scores[0] };
 
-            var query = from x in students
-                        let totalScore = x.Scores[0] + x.Scores[1] + x.Scores[2] + x.Scores[3]
-                        where totalScore > 300
-                        orderby totalScore descending
-                        // 익명 자료형이 아닌 경우
-                        select new { ID2 = x.ID, Score2 = totalScore };  // projection
+            // 메서드 : 모든 쿼리 구문 사용 가능
+            var query2 = students.Where(x => x.Scores[0] > 90)
+                                 .OrderByDescending(x => x.Last)
+                                 .Take(3)   // 정렬된 자료 중 앞에서 부터 3개 까지 가져와라 (쿼리식으로는 불가)
+                                 .Select(x => new { x.ID, Score = x.Scores[0] });
 
 
             //foreach(IGrouping<char, Student> g in query)
             foreach (var s in query)
             {
-                Console.WriteLine($"\t{s.ID2} {s.Score2}");
+                Console.WriteLine($"\t{s.ID} {s.Score}");
             }
         }
     }
