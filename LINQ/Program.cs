@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LINQ
-{
-   
+{  
     public class Student
     {
         public string First { get; set; }
@@ -19,7 +18,11 @@ namespace LINQ
     {
         static void Main(string[] args)
         {
-           
+            string sentence = "the quick brown fox jumps over the lazy dog";
+            // Split the string into individual words to create a collection.  
+            // 공백(스페이스바) 기준으로 단어 쪼개서 저장
+            string[] words = sentence.Split(' ');
+
             #region student
             List<Student> students = new List<Student>
             {
@@ -56,6 +59,8 @@ namespace LINQ
             {
                 Console.WriteLine($"\t{s.ID} {s.Score}");
             }
+           
+            
         }
     }
 }
