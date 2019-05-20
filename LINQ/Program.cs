@@ -35,7 +35,7 @@ namespace LINQ
                 new Student {First="Michael", Last="Tucker", ID=122, Scores= new List<int> {94, 92, 91, 91}}
             };
             #endregion
-
+             
             IEnumerable<Student> query = from x in students
                                          where x.Scores[0] > 90
                                          //orderby x.Last ascending
