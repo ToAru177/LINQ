@@ -18,42 +18,34 @@ namespace LINQ
     {
         static void Main(string[] args)
         {
-            
+            #region student
+            List<Student> students = new List<Student>
+            {
+                new Student {First="Svetlana", Last="Omelchenko", ID=111, Scores= new List<int> {97, 92, 81, 60}},
+                new Student {First="Claire", Last="O'Donnell", ID=112, Scores= new List<int> {75, 84, 91, 39}},
+                new Student {First="Sven", Last="Mortensen", ID=113, Scores= new List<int> {88, 94, 65, 91}},
+                new Student {First="Cesar", Last="Garcia", ID=114, Scores= new List<int> {97, 89, 85, 82}},
+                new Student {First="Debra", Last="Garcia", ID=115, Scores= new List<int> {35, 72, 91, 70}},
+                new Student {First="Fadi", Last="Fakhouri", ID=116, Scores= new List<int> {99, 86, 90, 94}},
+                new Student {First="Hanying", Last="Feng", ID=117, Scores= new List<int> {93, 92, 80, 87}},
+                new Student {First="Hugo", Last="Garcia", ID=118, Scores= new List<int> {92, 90, 83, 78}},
+                new Student {First="Lance", Last="Tucker", ID=119, Scores= new List<int> {68, 79, 88, 92}},
+                new Student {First="Terry", Last="Adams", ID=120, Scores= new List<int> {99, 82, 81, 79}},
+                new Student {First="Eugene", Last="Zabokritski", ID=121, Scores= new List<int> {96, 85, 91, 60}},
+                new Student {First="Michael", Last="Tucker", ID=122, Scores= new List<int> {94, 92, 91, 91}}
+            };
+            #endregion
 
+            IEnumerable<Student> query = from x in students
+                                         where x.Scores[0] > 90
+                                         //orderby x.Last ascending
+                                         orderby x.Scores[3] descending // 3번째 점수의 내림차순 정렬
+                                         select x;
 
-            int[] ar = new int[] { 4, 8, 8, 5 };
-
-            // LINQ
-            /*
-            // 열거하다..
-            IEnumerable<int> query = from x in ar
-                                     where x % 2 == 0
-                                     orderby x descending
-                                     select x;
-            */
-
-            // 짝수 이고 5보다 큰 경우
-            // for문을 사용할 경우 7번 반복 실행해야 할 것을 지연실행 하면 4번만 실행 하면 된다...
-            var query = from x in ar
-                        where x % 2 == 0
-                        select x;
-
-            query = from x in query
-                    where x > 5
-                    select x;
-
-            // 아래 문장이 시작할 때(query.ToList() 메서드가 호출 될 때) 위의 LINQ가 실행 됨
-            List<int> list = query.ToList();
-
-            int count = query.Count();
-            int first = query.First();  // 원소가 없으면 예외 발생
-            int last = query.LastOrDefault();   // 원소가 없으면 기본값 반환(int일 경우 0)
-
-            IEnumerable<string> query2 = from x in query
-                                         select (x * 3).ToString();
-
-            List<string> list2 = query2.ToList();
-
+            foreach(Student s in query)
+            {
+                Console.WriteLine($"{s.First} {s.Last} {s.Scores[3]}");
+            }
         }
     }
 }
