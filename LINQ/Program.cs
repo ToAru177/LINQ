@@ -39,23 +39,15 @@ namespace LINQ
             // 자료형이 IEnumerable<IGrouping<char, Student>>으로 너무 길어 var 사용
             var query = from x in students
                         where x.Scores[0] > 90
-                        //orderby x.Last ascending
-                        orderby x.Scores[3] descending // 3번째 점수의 내림차순 정렬
-                        //group x by x.Last[0];
-                        group x by x.Last[0] into g // 익명 타입 사용시 필요
-                        select new  // 익명타입 생성
-                        {
-                            Group = g,
-                            SumOfID = g.Sum(x => x.ID)
-                        };
+                        group x by x.Last[0] into g // orderby에서 그룹을 사용하기 위해 into를 사용
+                        orderby g.Key
+                        select g;
 
             //foreach(IGrouping<char, Student> g in query)
             foreach(var x in query)
             {
-                Console.WriteLine(x.Group.Key);
-                Console.WriteLine(x.SumOfID);
-
-                foreach (Student s in x.Group)
+                Console.WriteLine(x.Key);
+                foreach (Student s in x)
                     Console.WriteLine($"\t{s.First} {s.Last} {s.Scores[3]}");
             }
         }
